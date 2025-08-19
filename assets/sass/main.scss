@@ -69,3 +69,19 @@
 	@import 'layout/main';
 	@import 'layout/footer';
 	@import 'layout/navPanel';
+
+// Page-specific styles
+
+	// LIN 313 page background
+	body.lin313-page #wrapper > .bg {
+		background-image: url('../../images/overlay.png'), linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('../../images/thousand_plateaus.jpg');
+		background-size: auto, auto, cover;
+		background-position: center, center, center center;
+		background-repeat: repeat, no-repeat, no-repeat;
+		background-attachment: scroll, scroll, scroll;
+	}
+
+	// Reduce paragraph spacing for LIN 313 page
+	body.lin313-page p {
+		margin-bottom: 1rem;
+	}
