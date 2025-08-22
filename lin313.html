@@ -38,16 +38,27 @@
 							<section class="post">
 								<header class="major">
 									<h1> UT Austin LIN 313: <br />Language and Computers<br />Fall 2025</h1>
-									<p>An introduction to computational linguistics and natural language processing</p>
+									<p>A humanist introduction to computational linguistics and natural language processing</p>
 								</header>
 
 								<!-- Spring 2025 -->
 								<section>
-									<p><strong>Instructor:</strong> Gabriella Chronis (she/her)<br />
-									<strong>Meeting times:</strong> MWF 12:00pm-1:00pm<br />
-									<strong>Location:</strong> RLP 1.104<br />
-									<strong>Office hours:</strong> TBA<br />
-									<strong>TA:</strong> lol it me</p>
+									<div class="row">
+										<div class="col-6 col-12-small">
+											<p><strong>Instructor:</strong> Gabriella Chronis (she/her)<br />
+											<strong>Email:</strong> <a href="mailto:gsc685@my.utexas.edu">gsc685@my.utexas.edu</a><br />
+											<strong>Meeting times:</strong> MWF 12:00pm-1:00pm<br />
+											<strong>Location:</strong> RLP 1.104<br />
+											<strong>Office hours:</strong> Wednesday, 2-3pm <br />
+											<strong>Office:</strong> RLP 4th floor - East Cubicles</p>
+										</div>
+										<div class="col-6 col-12-small">
+											<p><strong>TA:</strong> Sooji Lee <br />
+											<strong>TA Email:</strong> <a href="mailto:sl55878@my.utexas.edu">sl55878@my.utexas.edu</a><br />
+											<strong>TA Office Hours:</strong> TBA<br />
+											<strong>TA Office:</strong> RLP 4th floor - East Cubicles</p>
+										</div>
+									</div>
 								</section>
 
 								<!-- Course Summary -->
@@ -55,8 +66,15 @@
 									<header>
 										<h2>Course Summary</h2>
 									</header>
-									<p>This course provides an introduction to computational linguistics and natural language processing (NLP). Students will explore how computers can be used to analyze, understand, and generate human language. The course covers fundamental concepts in linguistics as they relate to computational approaches, including phonetics, morphology, syntax, semantics, and pragmatics.</p>
-									<p>We will examine both traditional rule-based approaches and modern machine learning methods, with particular attention to neural networks and large language models. Students will gain hands-on experience with programming tools and techniques commonly used in computational linguistics research and industry applications.</p>
+									<p>
+										What is ChatGPT doing under the hood? How do Large Language Models work? What are they capable of? What are their potential pitfalls and even dangers? In this course, Our goal will be to gain a high-level understanding of contemporary language technologies. Through critical inquiry, example-based learning, and hands-on investigation, we will find insight into the fundamentals of how computers are used to represent, process, and produce natural language text and speech. We will cover the theory and practice of human language technology. Topics include statistical (pre neural networks) language models, vector semantics, machine learning for classification, AI and education, and other topics determined by student interest. By the second half of the semester, armed with the basic principles of text processing, we will be ready to tackle LLMs. <strong>Class Project:</strong> Throughout the semester, we will work towards building our own classification dataset and use this dataset to train and evaluate a model for a task we design together.<br />
+<br />
+This is NOT a coding course. There are NO math pre-requisites; we will cover the basics in probability and linear algebra that the course requires. (Linear algebra is just arithmetic with batches of numbers at a time). We will pay special attention to the human side of language technologies: the pragmatics of interaction, the relation between culture and language.<br />
+<br />
+However, the course goes beyond merely using AI systems. It emphasizes analysis and reasoning to draw and argue for valid conclusions about the design, capabilities and behavior of natural language systems. A foundation of computational and logical thinking skills is invaluable for understanding the human side of technologies. Demystifying AI is the first step in understanding ourselves to be subjects capable of transforming a world increasingly saturated with AI, rather than just consumers of AI. Therefore, assignments and assessments are designed to build basic skills in formal and computational analysis. The course philosophy is to ground abstract concepts in real world examples. Evaluation will be based on the midterm, homeworks, participation, and discussion questions.<br />
+<br />
+Before the flag system was abolished, this class had a quantitative reasoning flag. However, this is no longer a strict requirement. If you want to read ten books and write a research paper about the environmental and economic impacts of building AI data centers in Texas, (or build a program to rewrite song lyrics based on craigslist ads), go for it! I will support self-guided projects as best I can. Together, we can figure out a plan to measure progress towards a goal you want to work towards.
+									</p>
 								</section>
 
 								<!-- Course Objectives -->
@@ -66,13 +84,11 @@
 									</header>
 									<p>By the end of this course, students will be able to:</p>
 									<ul>
-										<li><strong>Understand fundamental concepts</strong> in computational linguistics and their relationship to theoretical linguistics</li>
-										<li><strong>Apply computational methods</strong> to analyze linguistic data and solve language-related problems</li>
-										<li><strong>Implement basic NLP algorithms</strong> using Python and relevant libraries (NLTK, spaCy, etc.)</li>
-										<li><strong>Evaluate different approaches</strong> to computational language analysis, including rule-based and statistical methods</li>
-										<li><strong>Critically assess</strong> the capabilities and limitations of current language technologies</li>
-										<li><strong>Design and conduct</strong> small-scale computational linguistics experiments</li>
-										<li><strong>Communicate findings</strong> effectively through written reports and oral presentations</li>
+										<li><strong>You will be able to explain what kinds of problems have to be solved in order for computers to do useful things with language.</strong> In order to train a computer to perform a human language task, we first have to understand something about how human language works and what kinds of problems need to be solved.</li>
+										<li><strong>You will learn how to approach tasks from a computational perspective.</strong> This is not a programming class, but through class exercises and homework, you will gain experience thinking like a computer scientist and about how a computer scientist would go about solving problems in human language.</li>
+										<li><strong>You will gain insight into the technology that underlies a wide variety of human language technologies, from spell checkers to search engines to dialogue systems.</strong></li>
+										<li><strong>You will gain experience thinking about data.</strong> Data science is one of the fastest growing fields for graduating college students. Throughout this class, we will think about the nature of experiments and data.</li>
+										<li><strong>You will gain a better understanding of the ethical considerations around work in computational linguistics.</strong> We will spend time not just on the primary research, but on thinking about the higher-order ethical and practical considerations that impact computational linguistics as a field.</li>
 									</ul>
 								</section>
 
@@ -92,13 +108,26 @@
 									<header>
 										<h2>Readings</h2>
 									</header>
-									<p>Readings will be drawn from:</p>
+									<p>Readings will draw from various sources. Everything will be digitally available through Canvas, the UT library, or this website. We will draw pretty heavily from two books in particular.</p>
 									<ul>
-										<li><strong>Jurafsky & Martin</strong></li>
-										<li>Other sources</li>
+										<li><strong>Artificial Intelligence: A Guide for Humans</strong> (Farrar Girou, & Strauss 2019) by cognitive scientist Melanie Mitchell (Santa Fe Institute). A very accessible, math-free introduction to AI that doesn't shy away from the details. Published just shy of the LLM era, it can already sound a little outdated. Mitchell is a strong reminder of what AI can't yet do. When read today, the book takes on a naïve charm. Still, it is an important bit of reason amid the AI hype, from someone who has been significant in the field for decades.</li>
+										<li><strong>Speech and Language Processing</strong> By Dan Jurafsky and James Martin (UC Boulder). The current gold standard NLP textbook.  This text is written for computer science students. It is dense, and gets technical at times. Therefore, where Mitchell covers a topic I will assign that chapter instead, (but I'll still link you to J&M for optional further reading.<strong> Note:</strong> Make sure you use the copy I link you to which is the most up to date draft of 3rd edition.</li>	
 									</ul>
-									<p>Some material will draw on computational or statistical expertise to understand fully and may be difficult. We don't expect you to have that expertise. So don't be daunted: part of the point of this course is to talk through and get more familiar with these ideas and techniques.</p>
+									<p>The 'math free' Mitchell isn't dumbed down–it's deeper. Mitchell's ability to explain technical topics without resorting to esoteric symbols and formalisms is rare and invaluable. The more you (as a student) are able to explain technical topics in terms of concrete examples and experience, the stronger the foundation of intuition you build, and the better you are set up for creative reasoning about those topics. Use the mitchell to understand what is happening. Use J&M for nuts and bolts. </br>
+										</p>
 								</section>
+
+								<!--Additional Resources-->
+								<section>
+									<header>
+										<h4>Additional Resources</h4>
+									</header>
+									<ul>
+										<li><a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOaMFbaqxPDoLWjDaRAdP9D" target="_blank">Stanford CS224N: NLP with Deep Learning</a></li>
+										<li>God Human Animal Machine</li>
+									</ul>
+								</section>
+
 
 
 								<!-- Schedule -->
@@ -106,237 +135,319 @@
 									<header>
 										<h2>Course Schedule</h2>
 									</header>
+
+									<p>***The schedule is subject to change. Check this page regularly for updates.***</p>
 									
-									<h3>Unit 1: What the &$*#@ is an LLM anyway?</h3>
+									<h3>Unit 1: Language as Information</h3>
 									<div class="table-wrapper">
 										<table>
 											<thead>
 												<tr>
 													<th>Date</th>
+													<th>Before Class</th>
 													<th>Topic</th>
-													<th>Assignment</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>Aug 28</td>
-													<td>Course introduction and what even is an LLM?</td>
-													<td>Read syllabus</td>
+													<td colspan="3"><strong>Week 1: What the #%!@& is a language model anyway </strong></td>
 												</tr>
 												<tr>
-													<td>Aug 30</td>
-													<td>LLMs in the wild: ChatGPT, Bard, and friends</td>
-													<td>Try 3 different LLMs</td>
+													<td>Mon 8/26</td>
+													<td></td>
+													<td>Course Introduction & Developing a Thematics</td>
 												</tr>
 												<tr>
-													<td>Sep 4</td>
-													<td>Under the hood: tokens, parameters, and magic</td>
-													<td>HW1 assigned</td>
+													<td>Wed 8/28</td>
+													<td></td>
+													<td>What is Computational Linguistics? Charting a course for the class</td>
 												</tr>
 												<tr>
-													<td>Sep 6</td>
-													<td>Why do LLMs work? (spoiler: nobody really knows)</td>
-													<td>Reading: Bender & Koller 2020</td>
+													<td>Fri 8/30</td>
+													<td></td>
+													<td>Introduction to N-gram Language Models</td>
+												</tr>
+												<tr>
+													<td colspan="3"><strong>Week 2: Linguistic Foundations</strong></td>
+												</tr>
+												<tr>
+													<td>Mon 9/2</td>
+													<td></td>
+													<td>Labor Day - No Class</td>
+												</tr>
+												<tr>
+													<td>Wed 9/4</td>
+													<td></td>
+													<td>N-gram models continued</td>
+												</tr>
+												<tr>
+													<td>Fri 9/6</td>
+													<td></td>
+													<td>Syntax, Semantics, and ambiguity</td>
+												</tr>
+												<tr>
+													<td colspan="3"><strong>Week 3: Language as Information</strong></td>
+												</tr>
+												<tr>
+													<td>Mon 9/9</td>
+													<td></td>
+													<td>Building and testing our own N-Gram Model</td>
+												</tr>
+												<tr>
+													<td>Wed 9/11</td>
+													<td></td>
+													<td>The history of information</td>
+												</tr>
+												<tr>
+													<td>Fri 9/13</td>
+													<td></td>
+													<td>What is machine learning?</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
 
-									<h3>Unit 2: What problem do we need to solve?</h3>
+									<h3>Unit 2: Machine Learning & Meaning</h3>
 									<div class="table-wrapper">
 										<table>
 											<thead>
 												<tr>
 													<th>Date</th>
+													<th>Before Class</th>
 													<th>Topic</th>
-													<th>Assignment</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>Sep 11</td>
-													<td>Language is hard: ambiguity everywhere</td>
-													<td>HW1 due</td>
+													<td colspan="3"><strong>Week 4: Text Classification</strong></td>
 												</tr>
 												<tr>
-													<td>Sep 13</td>
-													<td>Context matters: why "bank" isn't just "bank"</td>
-													<td>HW2 assigned</td>
+													<td>Mon 9/16</td>
+													<td></td>
+													<td>Discussion: The Future of Work and Learning (student-chosen focus)</td>
 												</tr>
 												<tr>
-													<td>Sep 18</td>
-													<td>Computational challenges in NLP</td>
-													<td>Quiz 1</td>
+													<td>Wed 9/18</td>
+													<td></td>
+													<td>Classification Problems in NLP: Spam, Sentiment, and Beyond</td>
 												</tr>
 												<tr>
-													<td>Sep 20</td>
-													<td>What would success even look like?</td>
-													<td>Reading: Turing Test</td>
+													<td>Fri 9/20</td>
+													<td></td>
+													<td>Naive Bayes: The Math Behind the Magic</td>
+												</tr>
+												<tr>
+													<td colspan="3"><strong>Week 5: Signs & Society</strong></td>
+												</tr>
+												<tr>
+													<td>Mon 9/23</td>
+													<td></td>
+													<td>Brainstorming class classification project</td>
+												</tr>
+												<tr>
+													<td>Wed 9/25</td>
+													<td></td>
+													<td>Semiotics</td>
+												</tr>
+												<tr>
+													<td>Fri 9/27</td>
+													<td></td>
+													<td>Semiotics II: Data & Encoding</td>
+												</tr>
+												<tr>
+													<td colspan="3"><strong>Week 6: In-context Learning</strong></td>
+												</tr>
+												<tr>
+													<td>Mon 9/30</td>
+													<td></td>
+													<td>Discussion: Language and Power</td>
+												</tr>
+												<tr>
+													<td>Wed 10/2</td>
+													<td></td>
+													<td>Data annotation for class project</td>
+												</tr>
+												<tr>
+													<td>Fri 10/4</td>
+													<td></td>
+													<td>Inter-annotator agreement</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
 
-									<h3>Unit 3: Language Models: Intro</h3>
+									<h3>Unit 3: Neural Networks & Deep Learning</h3>
 									<div class="table-wrapper">
 										<table>
 											<thead>
 												<tr>
 													<th>Date</th>
+													<th>Before Class</th>
 													<th>Topic</th>
-													<th>Assignment</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>Sep 25</td>
-													<td>Probability and language: predicting the next word</td>
-													<td>HW2 due</td>
+													<td colspan="3"><strong>Week 7: The Geometry of Meaning</strong></td>
 												</tr>
 												<tr>
-													<td>Sep 27</td>
-													<td>N-grams: the OG language models</td>
-													<td>HW3 assigned</td>
+													<td>Mon 10/7</td>
+													<td></td>
+													<td>Workshop on class project</td>
 												</tr>
 												<tr>
-													<td>Oct 2</td>
-													<td>Building your first language model</td>
-													<td>Lab: N-gram implementation</td>
+													<td>Wed 10/9</td>
+													<td></td>
+													<td>Word Vectors, a.k.a Distributional Semantic Space</td>
 												</tr>
 												<tr>
-													<td>Oct 4</td>
-													<td>Why n-grams fail spectacularly</td>
-													<td>Quiz 2</td>
+													<td>Fri 10/11</td>
+													<td></td>
+													<td>Word Vectors II - Distance, Similarity, and Semantic Space</td>
 												</tr>
 												<tr>
-													<td>Oct 9</td>
-													<td>Smoothing: making models less terrible</td>
-													<td>Reading: Jurafsky & Martin Ch. 3</td>
+													<td colspan="3"><strong>Week 8: Neural Network Basics</strong></td>
+												</tr>
+												<tr>
+													<td>Mon 10/14</td>
+													<td></td>
+													<td>Discussion: Bias in Word Embeddings (exploring implicit associations)</td>
+												</tr>
+												<tr>
+													<td>Wed 10/16</td>
+													<td></td>
+													<td>Perceptron</td>
+												</tr>
+												<tr>
+													<td>Fri 10/18</td>
+													<td></td>
+													<td>How Neural Networks Learn: Backpropagation Intuition</td>
+												</tr>
+												<tr>
+													<td colspan="3"><strong>Week 9: Midterm </strong></td>
+												</tr>
+												<tr>
+													<td>Mon 10/21</td>
+													<td></td>
+													<td>Review</td>
+												</tr>
+												<tr>
+													<td>Wed 10/23</td>
+													<td></td>
+													<td><strong>Midterm</strong></td>
+												</tr>
+												<tr>
+													<td>Fri 10/25</td>
+													<td></td>
+													<td>The Transformer Architecture: A New Paradigm</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
 
-									<h3>Unit 4: Machine Learning: Intro</h3>
+									<h3>Unit 4: Large Language Models & Society</h3>
 									<div class="table-wrapper">
 										<table>
 											<thead>
 												<tr>
 													<th>Date</th>
+													<th>Before Class</th>
 													<th>Topic</th>
-													<th>Assignment</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>Oct 11</td>
-													<td>Machine learning crash course</td>
-													<td>HW3 due</td>
+													<td colspan="3"><strong>Week 10: Birth of LLMs</strong></td>
 												</tr>
 												<tr>
-													<td>Oct 16</td>
-													<td>Neural networks: the brain metaphor that stuck</td>
-													<td>HW4 assigned</td>
+													<td>Mon 10/28</td>
+													<td></td>
+													<td>From BERT to GPT: The LLM Timeline</td>
 												</tr>
 												<tr>
-													<td>Oct 18</td>
-													<td>Backprop and gradient descent</td>
-													<td>Lab: Build a neural net</td>
+													<td>Wed 10/30</td>
+													<td></td>
+													<td>Training Large Language Models: Scale and Emergence</td>
 												</tr>
 												<tr>
-													<td>Oct 23</td>
-													<td>Word embeddings: words as vectors</td>
-													<td>Quiz 3</td>
+													<td>Fri 11/1</td>
+													<td></td>
+													<td>Reinforcement learning with human feedback</td>
 												</tr>
 												<tr>
-													<td>Oct 25</td>
-													<td>RNNs and the memory problem</td>
-													<td>Midterm review</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-
-									<h3>Unit 5: Midterm</h3>
-									<div class="table-wrapper">
-										<table>
-											<thead>
-												<tr>
-													<th>Date</th>
-													<th>Topic</th>
-													<th>Assignment</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Oct 30</td>
-													<td>Review session</td>
-													<td>HW4 due</td>
+													<td colspan="3"><strong>Week 11: Evaluation, Benchmarks and alignment</strong></td>
 												</tr>
 												<tr>
-													<td>Nov 1</td>
-													<td><strong>Midterm Exam</strong></td>
-													<td>Study!</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-
-									<h3>Unit 6: Modern Language Models</h3>
-									<div class="table-wrapper">
-										<table>
-											<thead>
-												<tr>
-													<th>Date</th>
-													<th>Topic</th>
-													<th>Assignment</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nov 6</td>
-													<td>Attention is all you need (apparently)</td>
-													<td>Final project assigned</td>
+													<td>Mon 11/4</td>
+													<td></td>
+													<td>Discussion: Alignment</td>
 												</tr>
 												<tr>
-													<td>Nov 8</td>
-													<td>Transformers: more than meets the eye</td>
-													<td>Reading: Attention paper</td>
+													<td>Wed 11/6</td>
+													<td></td>
+													<td>The Politics of AI: The US and China; Executive Order 14319</td>
 												</tr>
 												<tr>
-													<td>Nov 13</td>
-													<td>BERT: bidirectional and brilliant</td>
-													<td>HW5 assigned</td>
+													<td>Fri 11/8</td>
+													<td></td>
+													<td>Existential Risk</td>
 												</tr>
 												<tr>
-													<td>Nov 15</td>
-													<td>GPT: generative and chatty</td>
-													<td>Quiz 4</td>
+													<td colspan="3"><strong>Week 12: Philosophy of Mind</strong></td>
 												</tr>
 												<tr>
-													<td>Nov 20</td>
-													<td>Fine-tuning: teaching old models new tricks</td>
-													<td>Project proposal due</td>
+													<td>Mon 11/11</td>
+													<td></td>
+													<td>Discussion: Revise our initial questions about LLMs</td>
 												</tr>
 												<tr>
-													<td>Nov 27</td>
-													<td>Prompt engineering: the art of asking nicely</td>
-													<td>HW5 due</td>
+													<td>Wed 11/13</td>
+													<td></td>
+													<td>Chinese Room Argument / Libraries</td>
 												</tr>
 												<tr>
-													<td>Nov 29</td>
-													<td><em>Thanksgiving Break - No Class</em></td>
-													<td>Be thankful for LLMs</td>
+													<td>Fri 11/15</td>
+													<td></td>
+													<td>Truth, Hallucination</td>
 												</tr>
 												<tr>
-													<td>Dec 4</td>
-													<td>Ethics and bias: when models go wrong</td>
-													<td>Final project work</td>
+													<td colspan="3"><strong>Week 13: Applications</strong></td>
 												</tr>
 												<tr>
-													<td>Dec 6</td>
-													<td>Future of language models</td>
-													<td>Project presentations</td>
+													<td>Mon 11/18</td>
+													<td></td>
+													<td>TBD depending on student interests. Possible topics include audio processing, style transfer/controlled generation, interpretability</td>
+												</tr>
+												<tr>
+													<td>Wed 11/20</td>
+													<td></td>
+													<td>TBD</td>
+												</tr>
+												<tr>
+													<td>Fri 11/22</td>
+													<td></td>
+													<td>TBD</td>
+												</tr>
+												<tr>
+													<td colspan="3"><strong>Week 14: Fall Break - No Class</strong></td>
+												</tr>
+												<tr>
+													<td colspan="3"><strong>Week 15: Looking Forward</strong></td>
+												</tr>
+												<tr>
+													<td>Mon 12/2</td>
+													<td></td>
+													<td>Latest Innovations: RAG and Chain of Thought</td>
+												</tr>
+												<tr>
+													<td>Wed 12/4</td>
+													<td></td>
+													<td>Guest Lecture from research scientist</td>
+												</tr>
+												<tr>
+													<td>Fri 12/6</td>
+													<td></td>
+													<td>Panel Discussion: AI & the workplace</td>
 												</tr>
 											</tbody>
 										</table>
@@ -348,20 +459,28 @@
 											<thead>
 												<tr>
 													<th>Date</th>
+													<th>Before Class</th>
 													<th>Topic</th>
-													<th>Assignment</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>Dec 11</td>
-													<td>Final project presentations</td>
-													<td>Final projects due</td>
+													<td colspan="3"><strong>Week 16: Finals Week</strong></td>
 												</tr>
 												<tr>
-													<td>Dec 13</td>
+													<td>Mon 12/9</td>
+													<td></td>
+													<td>Final Reflections & Course Wrap-up</td>
+												</tr>
+												<tr>
+													<td>Wed 12/11</td>
+													<td></td>
+													<td>Optional Review session</td>
+												</tr>
+												<tr>
+													<td>TBD</td>
+													<td></td>
 													<td><strong>Final Exam</strong></td>
-													<td>Study (again)!</td>
 												</tr>
 											</tbody>
 										</table>
@@ -385,13 +504,13 @@
 											</thead>
 											<tbody>
 												<tr>
-													<td><strong>Programming Assignments</strong></td>
-													<td>30%</td>
+													<td><strong>Assignments</strong></td>
+													<td>40%</td>
 													<td>5 assignments implementing core NLP algorithms and techniques</td>
 												</tr>
 												<tr>
-													<td><strong>Midterm Exam</strong></td>
-													<td>20%</td>
+													<td><strong>Class Project</strong></td>
+													<td>10%</td>
 													<td>In-class exam covering Units 1-2 material</td>
 												</tr>
 												<tr>
@@ -406,7 +525,7 @@
 												</tr>
 												<tr>
 													<td><strong>Participation & Quizzes</strong></td>
-													<td>10%</td>
+													<td>15%</td>
 													<td>Class participation, discussion posts, and weekly quizzes</td>
 												</tr>
 											</tbody>
@@ -434,12 +553,51 @@
 									</ul>
 								</section>
 
-								<!-- Additional Information -->
+								<!-- University Policies -->
 								<section>
 									<header>
-										<h2>Prerequisites</h2>
+										<h2>University Policies</h2>
 									</header>
-									<p>Students should have completed an introductory linguistics course (LIN 306 or equivalent) and have basic programming experience in Python or another programming language. No advanced programming knowledge is required, but willingness to learn new technical skills is essential.</p>
+									<h3>Academic Integrity</h3>
+									<p>Each student in the course is expected to abide by the University of Texas Honor Code: "As a student of The University of Texas at Austin, I shall abide by the core values of the University and uphold academic integrity." Plagiarism is taken very seriously at UT. Therefore, if you use words or ideas that are not your own (or that you have used in previous class), you must cite your sources. Otherwise you will be guilty of plagiarism and subject to academic disciplinary action, including failure of the course. You are responsible for understanding UT's Academic Honesty and the University Honor Code which can be found at the following web address: <a href="https://deanofstudents.utexas.edu/conduct/standardsofconduct.php" target="_blank">https://deanofstudents.utexas.edu/conduct/standardsofconduct.php</a></p>
+
+									<h3>Sharing of Course Materials is Prohibited</h3>
+									<p>No materials used in this class, including, but not limited to, lecture hand-outs, videos, assessments (quizzes, exams, papers, projects, homework assignments), in-class materials, review sheets, and additional problem sets, may be shared online or with anyone outside of the class unless you have my explicit, written permission. Unauthorized sharing of materials promotes cheating. It is a violation of the University's Student Honor Code and an act of academic dishonesty. I am well aware of the sites used for sharing materials, and any materials found online that are associated with you, or any suspected unauthorized sharing of materials, will be reported to Student Conduct and Academic Integrity in the Office of the Dean of Students. These reports can result in sanctions, including failure in the course.</p>
+
+									<h3>Notice about missed work due to religious holy days</h3>
+									<p>A student who misses an examination, work assignment, or other project due to the observance of a religious holy day will be given an opportunity to complete the work missed within a reasonable time after the absence, provided that he or she has properly notified the instructor. It is the policy of the University of Texas at Austin that the student must notify the instructor at least fourteen days prior to the classes scheduled on dates he or she will be absent to observe a religious holy day. For religious holy days that fall within the first two weeks of the semester, the notice should be given on the first day of the semester. The student will not be penalized for these excused absences, but the instructor may appropriately respond if the student fails to complete satisfactorily the missed assignment or examination within a reasonable time after the excused absence.</p>
+
+									<h3>FERPA and Class Recordings</h3>
+									<p>Class recordings are reserved only for students in this class for educational purposes and are protected under FERPA. The recordings should not be shared outside the class in any form. Violation of this restriction by a student could lead to Student Misconduct proceedings.</p>
+
+									<h3>Academic dishonesty policy</h3>
+									<p>You are encouraged to discuss assignments with classmates. But all written work must be your own. Students caught cheating will automatically fail the course. If in doubt, ask the instructor.</p>
+
+								</section>
+
+								<!-- Student Support Services -->
+								<section>
+									<header>
+										<h2>Student Support Services</h2>
+									</header>
+
+									<h3>Services for Students with Disabilities</h3>
+									<p>The university is committed to creating an accessible and inclusive learning environment consistent with university policy and federal and state law. Please let me know if you experience any barriers to learning so I can work with you to ensure you have equal opportunity to participate fully in this course. If you are a student with a disability, or think you may have a disability, and need accommodations please contact Services for Students with Disabilities (SSD). Please refer to SSD's website for contact and more information: <a href="http://diversity.utexas.edu/disability/" target="_blank">http://diversity.utexas.edu/disability/</a>. If you are already registered with SSD, please deliver your Accommodation Letter to me as early as possible in the semester so we can discuss your approved accommodations and needs in this course.</p>
+
+									<h3>Counseling and Mental Health Center</h3>
+									<p>The Counseling and Mental Health Center serves UT's diverse campus community by providing high quality, innovative and culturally informed mental health programs and services that enhance and support students' well-being, academic and life goals. To learn more about your counseling and mental health options, call CMHC at (512) 471-3515.</p>
+									<p>If you are experiencing a mental health crisis, call the CMHC Crisis Line 24/7 at (512) 471-2255.</p>
+
+									<h3>The Sanger Learning Center</h3>
+									<p>Did you know that more than one-third of UT undergraduate students use the Sanger Learning Center each year to improve their academic performance? All students are welcome to take advantage of Sanger Center's classes and workshops, private learning specialist appointments, peer academic coaching, and tutoring for more than 70 courses in 15 different subject areas. For more information, please visit <a href="http://www.utexas.edu/ugs/slc" target="_blank">http://www.utexas.edu/ugs/slc</a> or call 512-471-3614 (JES A332).</p>
+
+									<h3>Additional Resources</h3>
+									<ul>
+										<li>Undergraduate Writing Center: <a href="http://uwc.utexas.edu/" target="_blank">http://uwc.utexas.edu/</a></li>
+										<li>Libraries: <a href="http://www.lib.utexas.edu/" target="_blank">http://www.lib.utexas.edu/</a></li>
+										<li>ITS: <a href="http://www.utexas.edu/its/" target="_blank">http://www.utexas.edu/its/</a></li>
+										<li>Emergency Services: <a href="http://deanofstudents.utexas.edu/emergency/" target="_blank">http://deanofstudents.utexas.edu/emergency/</a></li>
+									</ul>
 								</section>
 
 							</section>
