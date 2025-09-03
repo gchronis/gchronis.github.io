@@ -158,6 +158,30 @@
             transition: opacity 0.3s ease;
         }
         
+        .pdf-link {
+            text-align: center;
+            margin: 20px 0 30px 0;
+        }
+        
+        .pdf-link a {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        .pdf-link a:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+        }
+
         .description {
             margin-top: 20px;
             padding: 20px;
@@ -216,6 +240,10 @@
 <body>
     <div class="container">
         <h1>Class Concept Map</h1>
+        
+        <div class="pdf-link">
+            <a href="../documents/lin_313_fa_2025/handouts/9_3_2025_concept_map.pdf" target="_blank">PDF version</a>
+        </div>
         
         <div class="network-container">
             <svg id="network-svg"></svg>
