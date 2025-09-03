@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Concept Map</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .network-container {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            min-height: 800px;
+            max-height: 1200px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: auto;
+            border: 2px solid #e9ecef;
+        }
+        
+        svg {
+            width: 2000px;
+            height: 1400px;
+            min-width: 100%;
+            min-height: 100%;
+        }
+        
+        .node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .node:hover {
+            stroke-width: 3px;
+        }
+        
+        .node-circle {
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        
+        .link {
+            stroke: #95a5a6;
+            stroke-opacity: 0.6;
+            stroke-width: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .link:hover {
+            stroke: #3498db;
+            stroke-opacity: 1;
+            stroke-width: 3;
+        }
+        
+        .node-text {
+            font-size: 11px;
+            font-weight: 500;
+            text-anchor: middle;
+            dominant-baseline: central;
+            fill: white;
+            pointer-events: none;
+        }
+        
+        .category-colors {
+            /* Technical - Blue */
+            .technical { fill: #3498db; }
+            /* Social - Pink */
+            .social { fill: #e91e63; }
+            /* Economic - Green */
+            .economic { fill: #27ae60; }
+            /* Human-AI - Orange */
+            .human-ai { fill: #f39c12; }
+            /* Ethical - Purple */
+            .ethical { fill: #9b59b6; }
+            /* Future - Red */
+            .future { fill: #e74c3c; }
+        }
+        
+        .legend {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .control-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: #2980b9;
+        }
+        
+        .tooltip {
+            position: absolute;
+            padding: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            border-radius: 5px;
+            font-size: 12px;
+            max-width: 250px;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .description {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        
+        .questions-list {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .questions-list h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+        
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        
+        .question-category {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .question-category h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .question-category ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .question-category li {
+            margin: 8px 0;
+            line-height: 1.4;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Class Concept Map</h1>
+        
+        <div class="network-container">
+            <svg id="network-svg"></svg>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #3498db;"></div>
+                    <span>Technical Capabilities</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #e91e63;"></div>
+                    <span>Social Impact</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #27ae60;"></div>
+                    <span>Economic/Labor</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #f39c12;"></div>
+                    <span>Human-AI Relations</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #9b59b6;"></div>
+                    <span>Ethics/Privacy</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #e74c3c;"></div>
+                    <span>Future Trajectories</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" onclick="resetSimulation()">Reset Layout</button>
+            <button class="control-btn" onclick="toggleLinks()">Toggle Connections</button>
+        </div>
+        
+        <div class="description">
+            <h3>Network Insights</h3>
+            <p><strong>Node Size:</strong> Larger nodes represent questions that connect to many other questions - these are central concerns that your students see as fundamental.</p>
+            <p><strong>Connections:</strong> Lines show conceptual relationships between questions. Dense clusters indicate areas where multiple concerns intersect.</p>
+            <p><strong>Colors:</strong> Different colors represent thematic categories, showing how interdisciplinary these AI concerns are.</p>
+            <p><strong>Interactive:</strong> Hover over nodes to see the full question text and explore connections.</p>
+        </div>
+        
+        <div class="tooltip" id="tooltip"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script>
+const questions = [
+    // QUESTIONS
+    // Language Model Behavior Questions
+    {id: 1, text: "How will we be able to distinguish human and AI language?", category: "technical", type: "question", connections: [31, 39, 46, 50, 51]},
+    {id: 2, text: "Can AI have emotions? How important is emotional intelligence?", category: "technical", type: "question", connections: [30, 12, 13, 38]},
+    {id: 3, text: "Do LLMs have a plateau where they can no longer be improved?", category: "technical", type: "question", connections: [38, 4, 22, 37]},
+    {id: 4, text: "How do human inputs affect future outputs?", category: "technical", type: "question", connections: [3, 40, 48, 49]},
+    {id: 5, text: "How do companies personalize LLM responses?", category: "technical", type: "question", connections: [47, 48, 49, 36]},
+    {id: 6, text: "When will we have AGI?", category: "future", type: "question", connections: [3, 22, 23, 24]},
+    {id: 7, text: "How do LLMs visualize linguistic principles?", category: "technical", type: "question", connections: [1, 8, 44]},
+    {id: 8, text: "How are models trained to have a particular bias?", category: "technical", type: "question", connections: [7, 25, 41, 42]},
+    {id: 9, text: "What's the consequence of training AI using AI?", category: "technical", type: "question", connections: [8, 40, 25]},
+    
+    // Human Interaction Questions
+    {id: 10, text: "How will cheating with AI affect schooling?", category: "social", type: "question", connections: [11, 57, 58, 1]},
+    {id: 11, text: "How will AI affect education in general?", category: "social", type: "question", connections: [10, 57, 58, 15]},
+    {id: 12, text: "How will AI affect mental health?", category: "human-ai", type: "question", connections: [2, 13, 17, 52, 53]},
+    {id: 13, text: "How can we prevent harmful emotional relationships between AI and humans?", category: "human-ai", type: "question", connections: [2, 12, 17, 52, 53]},
+    {id: 14, text: "How will AI change the way software engineers work?", category: "economic", type: "question", connections: [15, 16, 60, 45]},
+    {id: 15, text: "Is there an overuse or over-reliance on LLMs?", category: "human-ai", type: "question", connections: [11, 14, 16, 17, 56, 57]},
+    {id: 16, text: "Is AI replacing entry level jobs?", category: "economic", type: "question", connections: [14, 15, 18, 19, 60]},
+    {id: 17, text: "What is the environmental impact?", category: "ethical", type: "question", connections: [12, 13, 15, 24]},
+    {id: 18, text: "What is the status of gov. regulation for AI?", category: "future", type: "question", connections: [16, 19, 20, 21, 24, 67]},
+    {id: 19, text: "How can we limit AI content from filling our spaces?", category: "social", type: "question", connections: [16, 18, 55, 59]},
+    {id: 20, text: "How does interacting with models compare to interacting with humans?", category: "human-ai", type: "question", connections: [21, 53, 56, 1]},
+    {id: 21, text: "Does it change the way we speak?", category: "social", type: "question", connections: [20, 1, 47, 48]},
+    
+    // Attitudes About AI Questions
+    {id: 22, text: "Will the LLM bubble burst? (like how voice assistants did?)", category: "future", type: "question", connections: [3, 6, 61, 65]},
+    {id: 23, text: "Why train the model to respond in a specific register?", category: "technical", type: "question", connections: [8, 5, 47]},
+    {id: 24, text: "Why replace humans?", category: "future", type: "question", connections: [6, 17, 18, 66]},
+    
+    // Data Questions
+    {id: 25, text: "How much of the internet should AI have access to? Is it even possible to limit what LLM's can access online?", category: "ethical", type: "question", connections: [8, 9, 26, 27, 69]},
+    {id: 26, text: "How private is AI? Is my data cooked?", category: "ethical", type: "question", connections: [25, 27, 28, 69, 70]},
+    {id: 27, text: "When does my data get erased?", category: "ethical", type: "question", connections: [25, 26, 28]},
+    {id: 28, text: "How can we use LLMs without our personal data and chats being collected?", category: "ethical", type: "question", connections: [25, 26, 27, 29]},
+    {id: 29, text: "How do you tailor the internet data that you feed the model?", category: "technical", type: "question", connections: [28, 25, 30, 8]},
+    {id: 30, text: "Where do AI models source their information?", category: "technical", type: "question", connections: [29, 2, 25, 43]},
+    {id: 31, text: "Will people begin to think with AI rather than with themselves?", category: "human-ai", type: "question", connections: [1, 15, 17, 56]},
+    
+    // Economy/Corporations/Governance Questions
+    {id: 32, text: "How can we make companies accountable for their user's safety?", category: "ethical", type: "question", connections: [13, 26, 28, 18, 71]},
+    {id: 33, text: "How can we help against job losses?", category: "economic", type: "question", connections: [16, 14, 18, 34]},
+    {id: 34, text: "What are the impacts on job growth / unemployment?", category: "economic", type: "question", connections: [33, 16, 14, 35]},
+    {id: 35, text: "How can we slow down development of AI and ensure people are okay?", category: "future", type: "question", connections: [34, 22, 18, 36]},
+    {id: 36, text: "How are companies training AI models for their own benefit?", category: "economic", type: "question", connections: [35, 5, 8, 71, 72]},
+    {id: 37, text: "What are social economic political consequences of misaligned AI?", category: "future", type: "question", connections: [3, 6, 22, 35, 72]},
+    {id: 38, text: "How to mitigate profit incentive?", category: "economic", type: "question", connections: [2, 3, 36, 71, 32]},
+    
+    // OBSERVATIONS
+    // Language Model Behavior Observations
+    {id: 39, text: "Sycophancy (friendly; they aim to please)", category: "technical", type: "observation", connections: [1, 46, 47]},
+    {id: 40, text: "Hallucinations: confident in incorrect information", category: "technical", type: "observation", connections: [4, 9, 41]},
+    {id: 41, text: "Often don't realize or admit they are wrong", category: "technical", type: "observation", connections: [40, 8, 42]},
+    {id: 42, text: "Needs to be checked", category: "technical", type: "observation", connections: [41, 8, 64]},
+    {id: 43, text: "Thinking is less unique than human thinking", category: "technical", type: "observation", connections: [30, 44, 1]},
+    {id: 44, text: "Prompt hacking: ways around failsafes", category: "technical", type: "observation", connections: [43, 7, 45]},
+    {id: 45, text: "Links to web pages (sometimes real, sometimes less trustworthy or outdated sites)", category: "technical", type: "observation", connections: [44, 14, 30]},
+    {id: 46, text: "GPT-5 mimics human speech very well including hesitation, breathing, and stuttering", category: "technical", type: "observation", connections: [39, 1, 47]},
+    {id: 47, text: "ChatGPT adapts to user style", category: "technical", type: "observation", connections: [46, 39, 5, 21, 23]},
+    {id: 48, text: "Asymptotic improvement: diminishing improvement of each generation", category: "technical", type: "observation", connections: [4, 5, 21, 3]},
+    {id: 49, text: "Many different companies are creating their own LLMs for employees", category: "economic", type: "observation", connections: [4, 5, 36, 71]},
+    {id: 50, text: "Has its own writing style (and not yet that of the average human)", category: "technical", type: "observation", connections: [1, 51, 47]},
+    {id: 51, text: "No new concepts; just reminds us what we know", category: "technical", type: "observation", connections: [1, 50, 43]},
+    
+    // Human Interaction Observations
+    {id: 52, text: "Multiple cases of LLMs encouraging suicide and self harm; AI-induced psychosis", category: "human-ai", type: "observation", connections: [12, 13, 53]},
+    {id: 53, text: "People use Character AI for relationships", category: "human-ai", type: "observation", connections: [52, 12, 13, 20]},
+    {id: 54, text: "Alternative to therapy", category: "human-ai", type: "observation", connections: [12, 53]},
+    {id: 55, text: "Flood of AI generated spam/content", category: "social", type: "observation", connections: [19, 59, 58]},
+    {id: 56, text: "Increasing reliance/overreliance on AI", category: "human-ai", type: "observation", connections: [15, 20, 31, 57]},
+    {id: 57, text: "Growing use in educational contexts; cheating in school", category: "social", type: "observation", connections: [10, 11, 15, 56]},
+    {id: 58, text: "Recognizing AI content is getting harder", category: "social", type: "observation", connections: [11, 55, 57, 1]},
+    {id: 59, text: "The AI boom is in full swing", category: "economic", type: "observation", connections: [55, 19, 60, 61]},
+    {id: 60, text: "Renders Excel people useless", category: "economic", type: "observation", connections: [14, 16, 59]},
+    {id: 61, text: "Many startups that are wrappers around AI", category: "economic", type: "observation", connections: [22, 59, 71]},
+    
+    // Attitudes About AI Observations
+    {id: 62, text: "Politically divisive", category: "social", type: "observation", connections: [63, 64, 66]},
+    {id: 63, text: "Apocalyptical fears", category: "social", type: "observation", connections: [62, 66, 67]},
+    {id: 64, text: "Some people have blind trust in LLMs", category: "social", type: "observation", connections: [42, 62, 65]},
+    {id: 65, text: "The LLM bubble will burst", category: "future", type: "observation", connections: [22, 64, 61]},
+    {id: 66, text: "We'll end up in a dystopia", category: "future", type: "observation", connections: [24, 62, 63, 67]},
+    {id: 67, text: "Fear and anxiety about reasoning abilities and self-awareness", category: "future", type: "observation", connections: [18, 63, 66, 6]},
+    {id: 68, text: "We'll end up in a utopia", category: "future", type: "observation", connections: [66, 24]},
+    
+    // Data Observations
+    {id: 69, text: "Regulation is a route to privacy and security", category: "ethical", type: "observation", connections: [25, 26, 18, 32]},
+    {id: 70, text: "ChatGPT knows personal information if you typed it in earlier", category: "ethical", type: "observation", connections: [26, 28, 27]},
+    
+    // Economy/Corporations/Governance Observations
+    {id: 71, text: "Companies prioritize engagement and profit over morality or user wellbeing", category: "economic", type: "observation", connections: [32, 38, 36, 49, 61]},
+    {id: 72, text: "AI arms race", category: "future", type: "observation", connections: [36, 37, 35, 73]},
+    {id: 73, text: "Talent war over AI researchers", category: "economic", type: "observation", connections: [72, 71, 36]},
+    
+    // RELEVANT PARTIES
+    {id: 74, text: "Individuals", category: "stakeholder", type: "party", connections: [12, 13, 26, 31, 53]},
+    {id: 75, text: "Publics", category: "stakeholder", type: "party", connections: [62, 63, 64, 19, 58]},
+    {id: 76, text: "The law / legal system / government", category: "stakeholder", type: "party", connections: [18, 24, 32, 69, 35]},
+    {id: 77, text: "Companies and corporations", category: "stakeholder", type: "party", connections: [71, 73, 32, 36, 49]},
+    {id: 78, text: "AI companies", category: "stakeholder", type: "party", connections: [71, 72, 73, 6, 61]}
+];
+
+// Category definitions
+const categories = {
+    "technical": "Technical Capabilities & Limitations",
+    "social": "Social & Cultural Impact", 
+    "economic": "Economic & Labor Concerns",
+    "human-ai": "Human-AI Relationships",
+    "ethical": "Privacy, Data & Ethics",
+    "future": "Future Trajectories",
+    "stakeholder": "Relevant Parties"
+};
+
+// Type definitions
+const types = {
+    "question": "Student Question",
+    "observation": "Observed Behavior/Phenomenon", 
+    "party": "Relevant Stakeholder"
+};
+
+        const width = 2000;
+        const height = 1400;
+        
+        const colors = {
+            technical: "#3498db",
+            social: "#e91e63", 
+            economic: "#27ae60",
+            "human-ai": "#f39c12",
+            ethical: "#9b59b6",
+            future: "#e74c3c"
+        };
+
+        const svg = d3.select("#network-svg")
+            .attr("viewBox", [0, 0, width, height]);
+
+        // Create links data
+        const links = [];
+        questions.forEach(q => {
+            q.connections.forEach(targetId => {
+                links.push({
+                    source: q.id,
+                    target: targetId
+                });
+            });
+        });
+
+        // Calculate node sizes based on connection count
+        const connectionCounts = {};
+        questions.forEach(q => {
+            connectionCounts[q.id] = q.connections.length;
+        });
+        
+        const maxConnections = Math.max(...Object.values(connectionCounts));
+        questions.forEach(q => {
+            q.size = 15 + (connectionCounts[q.id] / maxConnections) * 25;
+        });
+
+        let simulation = d3.forceSimulation(questions)
+            .force("link", d3.forceLink(links).id(d => d.id).distance(100))
+            .force("charge", d3.forceManyBody().strength(-300))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collision", d3.forceCollide().radius(d => d.size + 5));
+
+        const link = svg.append("g")
+            .selectAll("line")
+            .data(links)
+            .enter().append("line")
+            .attr("class", "link");
+
+        const node = svg.append("g")
+            .selectAll("g")
+            .data(questions)
+            .enter().append("g")
+            .attr("class", "node")
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+
+        node.append("circle")
+            .attr("class", "node-circle")
+            .attr("r", d => d.size)
+            .attr("fill", d => colors[d.category])
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 2);
+
+        node.append("text")
+            .attr("class", "node-text")
+            .text(d => d.id)
+            .attr("font-size", d => Math.max(10, d.size * 0.6));
+
+        const tooltip = d3.select("#tooltip");
+
+        node.on("mouseover", function(event, d) {
+            tooltip.style("opacity", 1)
+                .html(`<strong>Q${d.id}:</strong> ${d.text}<br><strong>Category:</strong> ${d.category}<br><strong>Connections:</strong> ${d.connections.length}`)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+            
+            // Highlight connected nodes and links
+            link.style("stroke-opacity", l => 
+                (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.1);
+            node.style("opacity", n => 
+                (n.id === d.id || d.connections.includes(n.id)) ? 1 : 0.3);
+        })
+        .on("mouseout", function() {
+            tooltip.style("opacity", 0);
+            link.style("stroke-opacity", 0.6);
+            node.style("opacity", 1);
+        });
+
+        simulation.on("tick", () => {
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            node
+                .attr("transform", d => `translate(${d.x},${d.y})`);
+        });
+
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        let linksVisible = true;
+        function toggleLinks() {
+            linksVisible = !linksVisible;
+            link.style("opacity", linksVisible ? 1 : 0);
+        }
+
+        function resetSimulation() {
+            simulation.alpha(1).restart();
+        }
+    </script>
+</body>
+</html>
