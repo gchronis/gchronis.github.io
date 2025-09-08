@@ -72,6 +72,53 @@
 				color: #ff6b6b;
 				margin: 1em 0;
 			}
+			.dice-container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin: 2em 0;
+				min-height: 120px;
+			}
+			.dice {
+				width: 100px;
+				height: 100px;
+				border: 3px solid #18bfef;
+				border-radius: 15px;
+				background: #fff;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 1.2em;
+				font-weight: bold;
+				color: #333;
+				position: relative;
+				transform-style: preserve-3d;
+				transition: all 0.3s ease;
+				box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+			}
+			.dice.rolling {
+				animation: rollDice 0.5s ease-in;
+			}
+			@keyframes rollDice {
+				0% { transform: rotateX(0deg) rotateY(0deg); }
+				25% { transform: rotateX(90deg) rotateY(45deg) scale(1.1); }
+				50% { transform: rotateX(180deg) rotateY(90deg) scale(1.2); }
+				75% { transform: rotateX(270deg) rotateY(135deg) scale(1.1); }
+				100% { transform: rotateX(360deg) rotateY(180deg) scale(1); }
+			}
+			.dice-face {
+				word-wrap: break-word;
+				text-align: center;
+				max-width: 90px;
+				line-height: 1.2;
+				padding: 5px;
+			}
+			.dice-result-text {
+				margin: 1em 0;
+				font-size: 1.3em;
+				color: #18bfef;
+				text-align: center;
+			}
 		</style>
 	</head>
 	<body class="is-preload">
@@ -99,8 +146,8 @@
 						<!-- Post -->
 							<section class="post">
 								<header class="major">
-									<h1>Loaded Dice Roller</h1>
-									<p>Create custom dice with adjustable probabilities and run statistical simulations</p>
+									<h1>Loaded Language Dice Roller</h1>
+									<p>Create custom word-rolling dice with adjustable probabilities and run statistical simulations</p>
 								</header>
 
 								<div class="dice-config">
@@ -145,6 +192,11 @@
 
 								<div class="controls">
 									<h2>Roll the Dice</h2>
+									<div class="dice-container">
+										<div id="visual-dice" class="dice" style="display: none;">
+											<div class="dice-face">?</div>
+										</div>
+									</div>
 									<button id="single-roll" class="button primary">Single Roll</button>
 									<div style="display: flex; gap: 1em; align-items: center;">
 										<label>Trials:</label>
@@ -155,10 +207,7 @@
 									</div>
 								</div>
 
-								<div class="results" id="results" style="display: none;">
-									<h3>Results</h3>
-									<div id="result-content"></div>
-								</div>
+
 
 								<div class="controls">
 									<h2>Generate a String</h2>
@@ -172,16 +221,6 @@
 							</section>
 
 					</div>
-
-				<!-- Footer -->
-					<footer id="footer">
-						<section class="split contact">
-							<section>
-								<h3>Email</h3>
-								<p><a href="mailto:gchronis@utexas.edu">gabriellachronis@utexas.edu</a></p>
-							</section>
-						</section>
-					</footer>
 
 				<!-- Copyright -->
 					<div id="copyright">
@@ -277,8 +316,20 @@
 							return;
 						}
 
-						const result = rollDice(faces);
-						showSingleResult(result);
+						// Show the dice and start animation
+						const dice = $('#visual-dice');
+						dice.show();
+						dice.addClass('rolling');
+						
+						// Hide previous results
+						$('#results').hide();
+						
+						// After animation, show result
+						setTimeout(function() {
+							const result = rollDice(faces);
+							dice.removeClass('rolling');
+							showSingleResult(result);
+						}, 500); // Match animation duration
 					});
 
 					// Simulation
@@ -313,13 +364,24 @@
 							return;
 						}
 
-						const result = rollDice(faces);
-						if (generatedString.length > 0) {
-							generatedString += ' ' + result;
-						} else {
-							generatedString = result;
-						}
-						$('#generated-string').text(generatedString);
+						// Show the dice and start animation
+						const dice = $('#visual-dice');
+						dice.show();
+						dice.addClass('rolling');
+						
+						// After animation, add result to string
+						setTimeout(function() {
+							const result = rollDice(faces);
+							dice.removeClass('rolling');
+							$('#visual-dice .dice-face').text(result);
+							
+							if (generatedString.length > 0) {
+								generatedString += ' ' + result;
+							} else {
+								generatedString = result;
+							}
+							$('#generated-string').text(generatedString);
+						}, 500); // Match animation duration
 					});
 
 					$('#refresh-string').click(function() {
@@ -329,7 +391,11 @@
 
 					// Show single result
 					function showSingleResult(result) {
-						const content = `<div class="single-result">Rolled: ${result}</div>`;
+						// Update dice face with result
+						$('#visual-dice .dice-face').text(result);
+						
+						// Show text result below
+						const content = `<div class="dice-result-text">You rolled: <strong>${result}</strong></div>`;
 						$('#result-content').html(content);
 						$('#results').show();
 					}
