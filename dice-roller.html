@@ -1,0 +1,418 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Loaded Dice Roller - Gabriella Chronis</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			.dice-config {
+				margin: 2em 0;
+			}
+			.face-input {
+				display: flex;
+				align-items: center;
+				margin: 0.5em 0;
+				gap: 1em;
+			}
+			.face-input input {
+				flex: 1;
+			}
+			.face-input input[type="number"] {
+				max-width: 100px;
+			}
+			.controls {
+				margin: 2em 0;
+				display: flex;
+				gap: 1em;
+				flex-wrap: wrap;
+				align-items: center;
+			}
+			.results {
+				margin: 2em 0;
+				padding: 1em;
+				background: rgba(255, 255, 255, 0.05);
+				border-radius: 4px;
+			}
+			.distribution {
+				margin: 1em 0;
+			}
+			.bar {
+				display: flex;
+				align-items: center;
+				margin: 0.5em 0;
+			}
+			.bar-label {
+				min-width: 100px;
+				margin-right: 1em;
+			}
+			.bar-fill {
+				height: 20px;
+				background: #18bfef;
+				border-radius: 2px;
+				transition: width 0.3s ease;
+			}
+			.bar-value {
+				margin-left: 1em;
+				min-width: 50px;
+			}
+			.single-result {
+				font-size: 1.5em;
+				font-weight: bold;
+				color: #18bfef;
+				margin: 1em 0;
+			}
+			.error {
+				color: #ff6b6b;
+				margin: 1em 0;
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="publications.html">Publications</a></li>
+							<li><a href="cv.html">CV</a></li>
+							<li class="active"><a href="dice-roller.html">Dice Roller</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<h1>Loaded Dice Roller</h1>
+									<p>Create custom dice with adjustable probabilities and run statistical simulations</p>
+								</header>
+
+								<div class="dice-config">
+									<h2>Configure Your Dice</h2>
+									<div id="faces-container">
+										<div class="face-input">
+											<label>Face:</label>
+											<input type="text" class="face-name" placeholder="Face 1" value="the">
+											<label>Probability:</label>
+											<input type="number" class="face-prob" step="0.01" min="0" max="1" value="0.2">
+										</div>
+										<div class="face-input">
+											<label>Face:</label>
+											<input type="text" class="face-name" placeholder="Face 2" value="cat">
+											<label>Probability:</label>
+											<input type="number" class="face-prob" step="0.01" min="0" max="1" value="0.2">
+										</div>
+										<div class="face-input">
+											<label>Face:</label>
+											<input type="text" class="face-name" placeholder="Face 3" value="dog">
+											<label>Probability:</label>
+											<input type="number" class="face-prob" step="0.01" min="0" max="1" value="0.2">
+										</div>
+										<div class="face-input">
+											<label>Face:</label>
+											<input type="text" class="face-name" placeholder="Face 4" value="gave">
+											<label>Probability:</label>
+											<input type="number" class="face-prob" step="0.01" min="0" max="1" value="0.2">
+										</div>
+										<div class="face-input">
+											<label>Face:</label>
+											<input type="text" class="face-name" placeholder="Face 5" value="fig">
+											<label>Probability:</label>
+											<input type="number" class="face-prob" step="0.01" min="0" max="1" value="0.2">
+										</div>
+									</div>
+									<div class="controls">
+										<button id="add-face" class="button small">Add Face</button>
+										<button id="normalize" class="button small">Normalize Probabilities</button>
+									</div>
+								</div>
+
+								<div class="controls">
+									<h2>Roll the Dice</h2>
+									<button id="single-roll" class="button primary">Single Roll</button>
+									<div style="display: flex; gap: 1em; align-items: center;">
+										<label>Trials:</label>
+										<input type="number" id="trials" min="1" value="10" style="width: 80px;">
+										<label>Rolls per trial:</label>
+										<input type="number" id="runs" min="1" value="10" style="width: 80px;">
+										<button id="simulate" class="button">Run Simulation</button>
+									</div>
+								</div>
+
+								<div class="results" id="results" style="display: none;">
+									<h3>Results</h3>
+									<div id="result-content"></div>
+								</div>
+
+								<div class="controls">
+									<h2>Generate a String</h2>
+									<div style="display: flex; gap: 1em; align-items: center; margin-bottom: 1em;">
+										<button id="string-roll" class="button">Roll & Add to String</button>
+										<button id="refresh-string" class="button small">Refresh String</button>
+									</div>
+									<div id="generated-string" style="padding: 1em; background: rgba(255, 255, 255, 0.05); border-radius: 4px; min-height: 2em; font-family: monospace; word-wrap: break-word;"></div>
+								</div>
+
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section class="split contact">
+							<section>
+								<h3>Email</h3>
+								<p><a href="mailto:gchronis@utexas.edu">gabriellachronis@utexas.edu</a></p>
+							</section>
+						</section>
+					</footer>
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Gabriella Chronis</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script>
+				$(document).ready(function() {
+					// Add face functionality
+					$('#add-face').click(function() {
+						const container = $('#faces-container');
+						const faceCount = container.children().length + 1;
+						const newFace = $(`
+							<div class="face-input">
+								<label>Face:</label>
+								<input type="text" class="face-name" placeholder="Face ${faceCount}" value="Face ${faceCount}">
+								<label>Probability:</label>
+								<input type="number" class="face-prob" step="0.01" min="0" max="1" value="0.00">
+								<button class="remove-face button small">Remove</button>
+							</div>
+						`);
+						container.append(newFace);
+					});
+
+					// Remove face functionality
+					$(document).on('click', '.remove-face', function() {
+						$(this).parent().remove();
+					});
+
+					// Normalize probabilities
+					$('#normalize').click(function() {
+						const probs = $('.face-prob');
+						const total = probs.toArray().reduce((sum, el) => sum + parseFloat($(el).val()) || 0, 0);
+						if (total > 0) {
+							probs.each(function() {
+								const currentVal = parseFloat($(this).val()) || 0;
+								$(this).val((currentVal / total).toFixed(3));
+							});
+						}
+					});
+
+					// Get dice configuration
+					function getDiceConfig() {
+						const faces = [];
+						$('.face-input').each(function() {
+							const name = $(this).find('.face-name').val().trim();
+							const prob = parseFloat($(this).find('.face-prob').val()) || 0;
+							if (name && prob > 0) {
+								faces.push({ name, prob });
+							}
+						});
+						return faces;
+					}
+
+					// Validate probabilities
+					function validateProbabilities(faces) {
+						const total = faces.reduce((sum, face) => sum + face.prob, 0);
+						return Math.abs(total - 1.0) < 0.001; // Allow small floating point errors
+					}
+
+					// Roll dice based on probabilities
+					function rollDice(faces) {
+						const random = Math.random();
+						let cumulative = 0;
+						for (let face of faces) {
+							cumulative += face.prob;
+							if (random <= cumulative) {
+								return face.name;
+							}
+						}
+						return faces[faces.length - 1].name; // Fallback
+					}
+
+					// Single roll
+					$('#single-roll').click(function() {
+						const faces = getDiceConfig();
+						if (faces.length === 0) {
+							showError('Please configure at least one face with a probability greater than 0.');
+							return;
+						}
+						if (!validateProbabilities(faces)) {
+							showError('Probabilities must sum to 1.0. Use "Normalize Probabilities" button to fix this.');
+							return;
+						}
+
+						const result = rollDice(faces);
+						showSingleResult(result);
+					});
+
+					// Simulation
+					$('#simulate').click(function() {
+						const faces = getDiceConfig();
+						const trials = parseInt($('#trials').val()) || 100;
+						const runs = parseInt($('#runs').val()) || 10;
+
+						if (faces.length === 0) {
+							showError('Please configure at least one face with a probability greater than 0.');
+							return;
+						}
+						if (!validateProbabilities(faces)) {
+							showError('Probabilities must sum to 1.0. Use "Normalize Probabilities" button to fix this.');
+							return;
+						}
+
+						runSimulation(faces, runs, trials);
+					});
+
+					// String generation
+					let generatedString = '';
+					
+					$('#string-roll').click(function() {
+						const faces = getDiceConfig();
+						if (faces.length === 0) {
+							showError('Please configure at least one face with a probability greater than 0.');
+							return;
+						}
+						if (!validateProbabilities(faces)) {
+							showError('Probabilities must sum to 1.0. Use "Normalize Probabilities" button to fix this.');
+							return;
+						}
+
+						const result = rollDice(faces);
+						if (generatedString.length > 0) {
+							generatedString += ' ' + result;
+						} else {
+							generatedString = result;
+						}
+						$('#generated-string').text(generatedString);
+					});
+
+					$('#refresh-string').click(function() {
+						generatedString = '';
+						$('#generated-string').text('');
+					});
+
+					// Show single result
+					function showSingleResult(result) {
+						const content = `<div class="single-result">Rolled: ${result}</div>`;
+						$('#result-content').html(content);
+						$('#results').show();
+					}
+
+					// Run simulation
+					function runSimulation(faces, trials, runs) {
+						const trialResults = {};
+						
+						// Initialize results
+						faces.forEach(face => {
+							trialResults[face.name] = [];
+						});
+
+						// Run trials
+						for (let trial = 0; trial < trials; trial++) {
+							const trialCounts = {};
+							faces.forEach(face => {
+								trialCounts[face.name] = 0;
+							});
+
+							// Run this trial
+							for (let run = 0; run < runs; run++) {
+								const result = rollDice(faces);
+								trialCounts[result]++;
+							}
+
+							// Store proportions for this trial
+							faces.forEach(face => {
+								const proportion = trialCounts[face.name] / runs;
+								trialResults[face.name].push(proportion);
+							});
+						}
+
+						showSimulationResults(trialResults, trials, runs);
+					}
+
+					// Show simulation results
+					function showSimulationResults(trialResults, trials, runs) {
+						let content = `<h4>Simulation Results (${trials} trials, ${runs} runs per trial)</h4>`;
+						
+						// Calculate total counts for each face across all trials
+						const faceCounts = {};
+						const totalRolls = trials * runs;
+						
+						Object.keys(trialResults).forEach(faceName => {
+							const counts = trialResults[faceName];
+							faceCounts[faceName] = counts.reduce((sum, count) => sum + count, 0);
+						});
+						
+						// Find max count for scaling bars
+						const maxCount = Math.max(...Object.values(faceCounts));
+						
+						content += '<div class="distribution">';
+						content += '<h4>Frequency Distribution</h4>';
+						
+						// Create one bar per face
+						Object.keys(faceCounts).forEach(faceName => {
+							const count = faceCounts[faceName];
+							const percentage = ((count / totalRolls) * 100).toFixed(1);
+							const barWidth = maxCount > 0 ? (count / maxCount) * 100 : 0;
+							
+							content += `<div class="bar">`;
+							content += `<div class="bar-label">${faceName}</div>`;
+							content += `<div class="bar-fill" style="width: ${barWidth}%"></div>`;
+							content += `<div class="bar-value">${count} (${percentage}%)</div>`;
+							content += `</div>`;
+						});
+						
+						content += '</div>';
+						content += `<p><strong>Total rolls:</strong> ${totalRolls}</p>`;
+						
+						$('#result-content').html(content);
+						$('#results').show();
+					}
+
+					// Show error
+					function showError(message) {
+						const content = `<div class="error">${message}</div>`;
+						$('#result-content').html(content);
+						$('#results').show();
+					}
+				});
+			</script>
+
+	</body>
+</html>
