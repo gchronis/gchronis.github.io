@@ -1,0 +1,581 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>N-gram Language Models - Gabriella Chronis</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			.corpus-section {
+				margin: 2em 0;
+				padding: 1em;
+				background: rgba(255, 255, 255, 0.03);
+				border-radius: 4px;
+				border-left: 3px solid #18bfef;
+			}
+			.model-config {
+				margin: 2em 0;
+				padding: 1em;
+				background: rgba(255, 255, 255, 0.03);
+				border-radius: 4px;
+				border-left: 3px solid #18bfef;
+			}
+			.model-selector {
+				display: flex;
+				align-items: center;
+				gap: 1em;
+				margin: 1em 0;
+			}
+			.model-selector select {
+				padding: 0.5em;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				background: #fff;
+				color: #333;
+			}
+			.corpus-textarea {
+				width: 100%;
+				padding: 0.75em;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				resize: vertical;
+				font-family: monospace;
+				min-height: 150px;
+			}
+			.char-counter {
+				text-align: right;
+				font-size: 0.8em;
+				color: #888;
+				margin-top: 0.5em;
+			}
+			.controls {
+				margin: 2em 0;
+				display: flex;
+				gap: 1em;
+				flex-wrap: wrap;
+				align-items: center;
+			}
+			.results {
+				margin: 2em 0;
+				padding: 1em;
+				background: rgba(255, 255, 255, 0.05);
+				border-radius: 4px;
+			}
+			.ngram-display {
+				max-height: 400px;
+				overflow-y: auto;
+				margin: 1em 0;
+				padding: 1em;
+				background: rgba(0, 0, 0, 0.1);
+				border-radius: 4px;
+				font-family: monospace;
+				font-size: 0.9em;
+			}
+			.ngram-entry {
+				margin: 0.3em 0;
+				padding: 0.2em 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+			}
+			.ngram-text {
+				font-weight: bold;
+				color: #18bfef;
+			}
+			.ngram-prob {
+				color: #ccc;
+				float: right;
+			}
+			.generation-section {
+				margin: 2em 0;
+				padding: 1em;
+				background: rgba(255, 255, 255, 0.03);
+				border-radius: 4px;
+				border-left: 3px solid #18bfef;
+			}
+			.generation-controls {
+				display: flex;
+				gap: 1em;
+				align-items: center;
+				margin: 1em 0;
+				flex-wrap: wrap;
+			}
+			.generated-text {
+				padding: 1em;
+				background: rgba(255, 255, 255, 0.05);
+				border-radius: 4px;
+				min-height: 3em;
+				font-family: monospace;
+				word-wrap: break-word;
+				margin: 1em 0;
+				line-height: 1.6;
+			}
+			.error {
+				color: #ff6b6b;
+				margin: 1em 0;
+			}
+			.success {
+				color: #4CAF50;
+				margin: 1em 0;
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="publications.html">Publications</a></li>
+							<li><a href="cv.html">CV</a></li>
+							<li><a href="dice-roller.html">Simple Dice</a></li>
+							<li><a href="conditional-dice.html">Conditional Dice</a></li>
+							<li class="active"><a href="n-gram-models.html">N-gram Models</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<h1>N-gram Language Models</h1>
+									<p>Create and experiment with n-gram language models for text generation</p>
+								</header>
+
+								<div class="corpus-section">
+									<h2>Corpus Input</h2>
+									<p>Enter or paste your text corpus below. You can use one or both text areas - the model will analyze the combined text to learn patterns and generate new text based on n-gram probabilities.</p>
+									
+									<div style="margin: 1em 0;">
+										<label for="corpus-text-1" style="font-weight: bold; display: block; margin-bottom: 0.5em;">Primary Corpus:</label>
+										<textarea id="corpus-text-1" class="corpus-textarea" placeholder="Enter your primary text corpus here..."></textarea>
+										<div class="char-counter">
+											<span id="char-count-1">0</span> characters
+										</div>
+									</div>
+									
+									<div style="margin: 1em 0;">
+										<label for="corpus-text-2" style="font-weight: bold; display: block; margin-bottom: 0.5em;">Secondary Corpus (Optional):</label>
+										<textarea id="corpus-text-2" class="corpus-textarea" placeholder="Enter additional text corpus here (optional)..."></textarea>
+										<div class="char-counter">
+											<span id="char-count-2">0</span> characters
+										</div>
+									</div>
+									
+									<div style="margin: 1em 0; padding: 0.5em; background: rgba(255, 255, 255, 0.05); border-radius: 4px;">
+										<div class="char-counter" style="text-align: center;">
+											<strong>Combined Total: <span id="char-count-total">0</span> characters</strong>
+										</div>
+									</div>
+									
+									<div class="controls">
+										<button id="clear-corpus-1" class="button small">Clear Primary</button>
+										<button id="clear-corpus-2" class="button small">Clear Secondary</button>
+										<button id="clear-all-corpus" class="button small">Clear All</button>
+									</div>
+								</div>
+
+								<div class="model-config">
+									<h2>Model Configuration</h2>
+									<div class="model-selector">
+										<label for="ngram-size">N-gram size:</label>
+										<select id="ngram-size">
+											<option value="1">Unigram (1-gram)</option>
+											<option value="2" selected>Bigram (2-gram)</option>
+											<option value="3">Trigram (3-gram)</option>
+											<option value="4">4-gram</option>
+											<option value="5">5-gram</option>
+											<option value="6">6-gram</option>
+										</select>
+									</div>
+									
+									<div class="controls">
+										<button id="calculate-probabilities" class="button primary">Calculate Probability Distribution</button>
+									</div>
+									
+									<div id="model-results" style="display: none;">
+										<h3>N-gram Probability Distribution</h3>
+										<div id="ngram-stats"></div>
+										<div id="ngram-display" class="ngram-display"></div>
+									</div>
+								</div>
+
+								<div class="generation-section">
+									<h2>Text Generation</h2>
+									<p>Generate new text using the learned n-gram model. For n-grams larger than 1, you can optionally provide a starting context.</p>
+									
+									<div class="generation-controls">
+										<div style="display: flex; gap: 1em; align-items: center;">
+											<label>Starting context:</label>
+											<input type="text" id="start-context" placeholder="Optional starting words..." style="min-width: 200px;">
+										</div>
+										<div style="display: flex; gap: 1em; align-items: center;">
+											<label>Length:</label>
+											<input type="number" id="generation-length" min="1" max="100" value="20" style="width: 80px;">
+											<label>words</label>
+										</div>
+									</div>
+									
+									<div class="controls">
+										<button id="generate-text" class="button">Generate Text</button>
+										<button id="clear-generated" class="button small">Clear</button>
+									</div>
+									
+									<div id="generated-text" class="generated-text"></div>
+								</div>
+
+								<div class="results" id="results" style="display: none;">
+									<div id="result-content"></div>
+								</div>
+
+							</section>
+
+					</div>
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Gabriella Chronis</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script>
+				$(document).ready(function() {
+					let ngramModel = null;
+					
+					// Update character counters
+					function updateCharacterCounts() {
+						const length1 = $('#corpus-text-1').val().length;
+						const length2 = $('#corpus-text-2').val().length;
+						const total = length1 + length2;
+						
+						$('#char-count-1').text(length1.toLocaleString());
+						$('#char-count-2').text(length2.toLocaleString());
+						$('#char-count-total').text(total.toLocaleString());
+					}
+
+					// Character counter for primary corpus
+					$('#corpus-text-1').on('input', updateCharacterCounts);
+
+					// Character counter for secondary corpus
+					$('#corpus-text-2').on('input', updateCharacterCounts);
+
+					// Clear primary corpus
+					$('#clear-corpus-1').click(function() {
+						$('#corpus-text-1').val('');
+						updateCharacterCounts();
+						$('#model-results').hide();
+						ngramModel = null;
+					});
+
+					// Clear secondary corpus
+					$('#clear-corpus-2').click(function() {
+						$('#corpus-text-2').val('');
+						updateCharacterCounts();
+						$('#model-results').hide();
+						ngramModel = null;
+					});
+
+					// Clear all corpus
+					$('#clear-all-corpus').click(function() {
+						$('#corpus-text-1').val('');
+						$('#corpus-text-2').val('');
+						updateCharacterCounts();
+						$('#model-results').hide();
+						ngramModel = null;
+					});
+
+					// Clear generated text
+					$('#clear-generated').click(function() {
+						$('#generated-text').text('');
+					});
+
+					// Tokenize text
+					function tokenize(text) {
+						return text.toLowerCase()
+							// Add spaces around periods and commas to separate them as tokens
+							.replace(/([.,])/g, ' $1 ')
+							// Remove other punctuation
+							.replace(/[^\w\s.,]/g, ' ')
+							.split(/\s+/)
+							.filter(token => token.length > 0);
+					}
+
+					// Extract n-grams from tokens
+					function extractNgrams(tokens, n) {
+						const ngrams = {};
+						
+						for (let i = 0; i <= tokens.length - n; i++) {
+							const ngram = tokens.slice(i, i + n);
+							const ngramStr = ngram.join(' ');
+							
+							if (!ngrams[ngramStr]) {
+								ngrams[ngramStr] = 0;
+							}
+							ngrams[ngramStr]++;
+						}
+						
+						return ngrams;
+					}
+
+					// Calculate conditional probabilities for n-grams
+					function calculateNgramProbabilities(tokens, n) {
+						if (n === 1) {
+							// For unigrams, just calculate frequency distribution
+							const ngrams = extractNgrams(tokens, 1);
+							const total = Object.values(ngrams).reduce((sum, count) => sum + count, 0);
+							
+							const probabilities = {};
+							for (let ngram in ngrams) {
+								probabilities[ngram] = ngrams[ngram] / total;
+							}
+							
+							return { probabilities, contextMap: null };
+						} else {
+							// For n-grams > 1, calculate conditional probabilities
+							const ngrams = extractNgrams(tokens, n);
+							const contexts = extractNgrams(tokens, n - 1);
+							
+							const probabilities = {};
+							const contextMap = {};
+			
+			for (let ngram in ngrams) {
+								const ngramParts = ngram.split(' ');
+								const context = ngramParts.slice(0, n - 1).join(' ');
+								const nextWord = ngramParts[n - 1];
+								
+								if (!contextMap[context]) {
+									contextMap[context] = {};
+								}
+								
+								const contextCount = contexts[context] || 0;
+								const conditional_prob = contextCount > 0 ? ngrams[ngram] / contextCount : 0;
+								
+								probabilities[ngram] = conditional_prob;
+								contextMap[context][nextWord] = conditional_prob;
+							}
+							
+							return { probabilities, contextMap };
+						}
+					}
+
+					// Display n-gram results
+					function displayNgramResults(probabilities, contextMap, n, totalTokens) {
+						const ngramCount = Object.keys(probabilities).length;
+						
+						$('#ngram-stats').html(`
+							<p><strong>Total tokens:</strong> ${totalTokens.toLocaleString()}</p>
+							<p><strong>Unique ${n}-grams:</strong> ${ngramCount.toLocaleString()}</p>
+						`);
+						
+						// Sort by probability (descending)
+						const sortedNgrams = Object.entries(probabilities)
+							.sort(([,a], [,b]) => b - a)
+							.slice(0, 100); // Show top 100
+						
+						let displayHtml = '';
+						sortedNgrams.forEach(([ngram, prob]) => {
+							displayHtml += `
+								<div class="ngram-entry">
+									<span class="ngram-text">"${ngram}"</span>
+									<span class="ngram-prob">${prob.toFixed(4)}</span>
+								</div>
+							`;
+						});
+						
+						if (ngramCount > 100) {
+							displayHtml += `<div class="ngram-entry" style="text-align: center; font-style: italic;">
+								... and ${(ngramCount - 100).toLocaleString()} more
+							</div>`;
+						}
+						
+						$('#ngram-display').html(displayHtml);
+						$('#model-results').show();
+					}
+
+					// Get combined corpus text
+					function getCombinedCorpus() {
+						const corpus1 = $('#corpus-text-1').val().trim();
+						const corpus2 = $('#corpus-text-2').val().trim();
+						
+						if (!corpus1 && !corpus2) {
+							return '';
+						}
+						
+						// Concatenate with a space if both exist
+						if (corpus1 && corpus2) {
+							return corpus1 + ' ' + corpus2;
+						}
+						
+						return corpus1 || corpus2;
+					}
+
+					// Calculate probabilities
+					$('#calculate-probabilities').click(function() {
+						const corpusText = getCombinedCorpus();
+						const n = parseInt($('#ngram-size').val());
+						
+						if (!corpusText) {
+							showMessage('Please enter some text in at least one corpus field.', 'error');
+							return;
+						}
+						
+						if (corpusText.length < 10) {
+							showMessage('Please enter a longer text to build a meaningful model.', 'error');
+							return;
+						}
+						
+						const tokens = tokenize(corpusText);
+						
+						if (tokens.length < n) {
+							showMessage(`Text too short for ${n}-gram model. Need at least ${n} tokens.`, 'error');
+							return;
+						}
+						
+						try {
+							const result = calculateNgramProbabilities(tokens, n);
+							ngramModel = {
+								n: n,
+								probabilities: result.probabilities,
+								contextMap: result.contextMap,
+								tokens: tokens
+							};
+							
+							displayNgramResults(result.probabilities, result.contextMap, n, tokens.length);
+							showMessage(`Successfully built ${n}-gram model!`, 'success');
+						} catch (error) {
+							showMessage(`Error building model: ${error.message}`, 'error');
+						}
+					});
+
+					// Generate text using the n-gram model
+					function generateText(model, startContext, length) {
+						if (!model) return '';
+						
+						const { n, probabilities, contextMap, tokens } = model;
+						let result = [];
+						
+						if (n === 1) {
+							// For unigrams, just sample from the probability distribution
+							for (let i = 0; i < length; i++) {
+								const word = sampleFromDistribution(probabilities);
+								if (word) result.push(word);
+							}
+						} else {
+							// For n-grams > 1, use context-based generation
+							let context = [];
+							
+							if (startContext && startContext.trim()) {
+								context = tokenize(startContext).slice(-(n-1));
+							}
+							
+							if (context.length === 0) {
+								// Start with a random n-1 gram from the text
+								const possibleStarts = Object.keys(contextMap);
+								if (possibleStarts.length > 0) {
+									const randomStart = possibleStarts[Math.floor(Math.random() * possibleStarts.length)];
+									context = randomStart.split(' ');
+								}
+							}
+							
+							result = [...context];
+							
+							for (let i = 0; i < length; i++) {
+								const contextStr = context.join(' ');
+								
+								if (contextMap[contextStr]) {
+									const nextWord = sampleFromDistribution(contextMap[contextStr]);
+									if (nextWord) {
+										result.push(nextWord);
+										context = [...context.slice(1), nextWord];
+									} else {
+										break;
+									}
+								} else {
+									break;
+								}
+							}
+						}
+						
+						return result.join(' ');
+					}
+
+					// Sample from a probability distribution
+					function sampleFromDistribution(distribution) {
+						const items = Object.keys(distribution);
+						const probabilities = Object.values(distribution);
+						
+						if (items.length === 0) return null;
+						
+						const random = Math.random();
+						let cumulative = 0;
+						
+						for (let i = 0; i < items.length; i++) {
+							cumulative += probabilities[i];
+							if (random <= cumulative) {
+								return items[i];
+							}
+						}
+						
+						return items[items.length - 1];
+					}
+
+					// Generate text button
+					$('#generate-text').click(function() {
+						if (!ngramModel) {
+							showMessage('Please calculate probability distribution first.', 'error');
+							return;
+						}
+						
+						const startContext = $('#start-context').val().trim();
+						const length = parseInt($('#generation-length').val()) || 20;
+						
+						const generatedText = generateText(ngramModel, startContext, length);
+						
+						if (generatedText) {
+							$('#generated-text').text(generatedText);
+						} else {
+							showMessage('Failed to generate text. Try a different starting context.', 'error');
+						}
+					});
+
+					// Show message
+					function showMessage(message, type = 'info') {
+						const className = type === 'error' ? 'error' : (type === 'success' ? 'success' : '');
+						const content = `<div class="${className}">${message}</div>`;
+						$('#result-content').html(content);
+						$('#results').show();
+						
+						// Hide after 5 seconds for success messages
+						if (type === 'success') {
+							setTimeout(() => {
+								$('#results').hide();
+							}, 5000);
+						}
+					}
+				});
+			</script>
+
+	</body>
+</html>
