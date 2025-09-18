@@ -312,14 +312,30 @@
 					});
 
 					// Tokenize text
-					function tokenize(text) {
-						return text.toLowerCase()
-							// Add spaces around periods and commas to separate them as tokens
-							.replace(/([.,])/g, ' $1 ')
-							// Remove other punctuation
-							.replace(/[^\w\s.,]/g, ' ')
-							.split(/\s+/)
-							.filter(token => token.length > 0);
+					function tokenize(text, ngramSize = 1) {
+						// Split text into sentences using periods, exclamation marks, and question marks
+						const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+						
+						let allTokens = [];
+						
+						sentences.forEach(sentence => {
+							const tokens = sentence.toLowerCase()
+								// Add spaces around commas to separate them as tokens
+								.replace(/([,])/g, ' $1 ')
+								// Remove other punctuation
+								.replace(/[^\w\s,]/g, ' ')
+								.split(/\s+/)
+								.filter(token => token.length > 0);
+							
+							if (tokens.length > 0) {
+								// Add start tokens based on n-gram size
+								// For bigram: 1 <start> token, for trigram: 2 <start> tokens, etc.
+								const startTokens = Array(ngramSize - 1).fill('<start>');
+								allTokens = allTokens.concat(startTokens, tokens);
+							}
+						});
+						
+						return allTokens;
 					}
 
 					// Extract n-grams from tokens
@@ -446,7 +462,7 @@
 							return;
 						}
 						
-						const tokens = tokenize(corpusText);
+						const tokens = tokenize(corpusText, n);
 						
 						if (tokens.length < n) {
 							showMessage(`Text too short for ${n}-gram model. Need at least ${n} tokens.`, 'error');
@@ -487,21 +503,38 @@
 							let context = [];
 							
 							if (startContext && startContext.trim()) {
-								context = tokenize(startContext).slice(-(n-1));
+								// If user provides start context, tokenize it and use as context
+								const userTokens = tokenize(startContext, 1); // Don't add start tokens to user input
+								context = userTokens.slice(-(n-1));
 							}
 							
 							if (context.length === 0) {
-								// Start with a random n-1 gram from the text
-								const possibleStarts = Object.keys(contextMap);
-								if (possibleStarts.length > 0) {
-									const randomStart = possibleStarts[Math.floor(Math.random() * possibleStarts.length)];
-									context = randomStart.split(' ');
+								// Start with the start token distribution
+								const startTokenContext = Array(n-1).fill('<start>').join(' ');
+								if (contextMap[startTokenContext]) {
+									const firstWord = sampleFromDistribution(contextMap[startTokenContext]);
+									if (firstWord) {
+										// Initialize context with start tokens and first word
+										context = Array(n-2).fill('<start>').concat([firstWord]);
+										result.push(firstWord);
+									}
+								} else {
+									// Fallback: use any available context
+									const possibleStarts = Object.keys(contextMap);
+									if (possibleStarts.length > 0) {
+										const randomStart = possibleStarts[Math.floor(Math.random() * possibleStarts.length)];
+										context = randomStart.split(' ');
+									}
 								}
 							}
 							
-							result = [...context];
+							// If we don't have any words yet but have context, add context to result
+							if (result.length === 0 && context.length > 0) {
+								// Only add non-start tokens to result
+								result = context.filter(token => token !== '<start>');
+							}
 							
-							for (let i = 0; i < length; i++) {
+							for (let i = 0; i < length - result.length; i++) {
 								const contextStr = context.join(' ');
 								
 								if (contextMap[contextStr]) {
@@ -518,7 +551,24 @@
 							}
 						}
 						
-						return result.join(' ');
+						// Replace sequences of start tokens with a single period
+						let finalResult = [];
+						let inStartSequence = false;
+						
+						for (let token of result) {
+							if (token === '<start>') {
+								if (!inStartSequence) {
+									finalResult.push('.');
+									inStartSequence = true;
+								}
+								// Skip additional start tokens in sequence
+							} else {
+								finalResult.push(token);
+								inStartSequence = false;
+							}
+						}
+						
+						return finalResult.join(' ');
 					}
 
 					// Sample from a probability distribution
